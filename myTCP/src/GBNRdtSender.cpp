@@ -13,7 +13,7 @@ static bool checkInWindow(int seqNum, int base, int windowSize) {
 	}
 }
 
-GBNRdtSender::GBNRdtSender() :expectSequenceNumberSend(0),windowSize(Configuration::WINDOW_SIZE), base(0)
+GBNRdtSender::GBNRdtSender() :expectSequenceNumberSend(0),windowSize(Configuration::GBN_SENDER_WINDOW_SIZE), base(0)
 {
 }
 
@@ -37,18 +37,18 @@ bool GBNRdtSender::send(const Message& message) {
 	}
 	Packet pkt;
 	//填充报文
-	while (!getWaitingState()) {
-		pkt.acknum = -1; //忽略该字段
-		pkt.seqnum = this->expectSequenceNumberSend;
-		pkt.checksum = 0;
-		memcpy(pkt.payload, message.data, sizeof(message.data));
-		pkt.checksum = pUtils->calculateCheckSum(pkt);
+	
+	pkt.acknum = -1; //忽略该字段
+	pkt.seqnum = this->expectSequenceNumberSend;
+	pkt.checksum = 0;
+	memcpy(pkt.payload, message.data, sizeof(message.data));
+	pkt.checksum = pUtils->calculateCheckSum(pkt);
 
-		this->packetBuffer.push_back(pkt); //将报文加入发送缓冲区
-		pns->sendToNetworkLayer(RECEIVER, pkt);								//调用模拟网络环境的sendToNetworkLayer，通过网络层发送到对方
-		pUtils->printPacket("发送方发送报文", pkt);
-		this->expectSequenceNumberSend =(this->expectSequenceNumberSend+1)%Configuration::MOD; 
-	}
+	this->packetBuffer.push_back(pkt); //将报文加入发送缓冲区
+	pns->sendToNetworkLayer(RECEIVER, pkt);								//调用模拟网络环境的sendToNetworkLayer，通过网络层发送到对方
+	pUtils->printPacket("发送方发送报文", pkt);
+	this->expectSequenceNumberSend =(this->expectSequenceNumberSend+1)%Configuration::MOD; 
+	
 	base = this->packetBuffer.front().seqnum; //窗口基序号为缓冲区第一个报文的序号
 	pns->startTimer(SENDER, Configuration::TIME_OUT, base);			//启动发送方定时器
 	return true;

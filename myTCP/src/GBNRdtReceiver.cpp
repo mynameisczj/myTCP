@@ -12,7 +12,7 @@ static bool checkInWindow(int seqNum, int base, int windowSize) {
 		else return false;
 	}
 }
-GBNRdtReceiver::GBNRdtReceiver() :expectSequenceNumberRcvd(0), windowSize(Configuration::WINDOW_SIZE)
+GBNRdtReceiver::GBNRdtReceiver() :expectSequenceNumberRcvd(0), windowSize(Configuration::GBN_RECEIVER_WINDOW_SIZE)
 {
 	lastAckPkt.acknum = -1; //初始状态下，上次发送的确认包的确认序号为-1，使得当第一个接受的数据包出错时该确认报文的确认号为-1
 	lastAckPkt.checksum = 0;

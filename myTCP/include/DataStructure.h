@@ -21,7 +21,9 @@ struct  Configuration{
 	/**
 	´°¿Ú´óÐ¡
 	*/
-	static const int WINDOW_SIZE = (MOD / 2);
+	static const int SR_WINDOW_SIZE = (MOD / 2);
+	static const int GBN_RECEIVER_WINDOW_SIZE = 1;
+	static const int GBN_SENDER_WINDOW_SIZE = (MOD / 2);
 };
 
 
