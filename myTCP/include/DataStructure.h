@@ -13,6 +13,15 @@ struct  Configuration{
 	*/
 	static const int TIME_OUT =20;
 
+	/**
+	ÐòºÅ·¶Î§0~(MOD-1)
+	*/
+	static const int MOD = 1<<3;
+
+	/**
+	´°¿Ú´óÐ¡
+	*/
+	static const int WINDOW_SIZE = (MOD / 2);
 };
 
 
