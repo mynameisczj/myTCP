@@ -4,9 +4,9 @@
 :: outputname 输出文件名
 :: resultname 程序控制台输出重定向文件名
 
-set appname="D:\homeworkspace\network\myTCP\myTCP\Debug\myTCP.exe"
-set inputname="input.txt"
-set outputname="output.txt"
+set appname="D:\homeworkspace\network\myTCP\myTCP\Release\myTCP.exe"
+set inputname="D:\homeworkspace\network\myTCP\myTCP\myTCP\input.txt"
+set outputname="D:\homeworkspace\network\myTCP\myTCP\myTCP\output.txt"
 set resultname="result.txt"
 
 for /l %%i in (1,1,10) do (
