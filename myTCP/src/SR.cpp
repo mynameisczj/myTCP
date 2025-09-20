@@ -12,8 +12,8 @@
 int main(int argc, char* argv[])
 {
 	FILE* stream;
-	freopen_s(&stream, "SRlog.txt", "w", stdout); // "w" 表示写入（覆盖）
-	freopen_s(&stream, "SRlog.txt", "a", stderr); // "a" 表示追加
+	freopen_s(&stream, "./Log/SRlog.txt", "w", stdout); // "w" 表示写入（覆盖）
+	freopen_s(&stream, "./Log/SRlog.txt", "a", stderr); // "a" 表示追加
 
 	RdtSender* ps = new SRRdtSender();
 	RdtReceiver* pr = new SRRdtReceiver();
