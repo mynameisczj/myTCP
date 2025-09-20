@@ -2,13 +2,17 @@
 #define SR_RDT_SENDER_H
 #include "RdtSender.h"
 #include <map>
+#include <deque>
+
 class SRRdtSender :public RdtSender
 {
 private:
 	int expectSequenceNumberSend;	// 下一个发送序号 
 
-	std::map<int, Packet> packetBuffer; //发送缓冲区，key为seqNum，value为Packet
+	std::deque<int> packetBuffer; //发送缓冲区，按发送顺序存储Packet.seqNum
+	std::map<int, Packet> sentPackets; //已发送但未确认的报文集合，key为Packet.seqNum，value为Packet
 	uint32_t windowSize;			//窗口大小
+	int base;						//窗口基序号
 
 public:
 

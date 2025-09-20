@@ -12,6 +12,16 @@ static bool checkInWindow(int seqNum, int base, int windowSize) {
 		else return false;
 	}
 }
+void printDeque(const std::deque<Packet>& dq) {
+	if (dq.empty()) {
+		std::cout << "deque is empty" << std::endl;
+		return;
+	}
+	for (auto i : dq) {
+		std::cout << i.seqnum << " ";
+	}
+	std::cout << std::endl;
+}
 
 GBNRdtSender::GBNRdtSender() :expectSequenceNumberSend(0),windowSize(Configuration::GBN_SENDER_WINDOW_SIZE), base(0)
 {
@@ -58,10 +68,9 @@ void GBNRdtSender::receive(const Packet& ackPkt) {
 	//检查校验和是否正确
 	int checkSum = pUtils->calculateCheckSum(ackPkt);
 
+	printDeque(this->packetBuffer);
 	//如果校验和正确，并且确认序号=发送方已发送并等待确认的数据包序号
 	if (!packetBuffer.empty()&& checkSum == ackPkt.checksum &&checkInWindow(ackPkt.acknum,this->base,windowSize)) {
-		//this->expectSequenceNumberSend = (this->expectSequenceNumberSend + 1) % Configuration::MOD; //发送序号在0~(MOD-1)之间循环	
-		/*std::cout << this->expectSequenceNumberSend << std::endl;*/
 		while(!packetBuffer.empty() && packetBuffer.front().seqnum != (ackPkt.acknum + 1) % Configuration::MOD) {
 			this->packetBuffer.pop_front();
 		}
@@ -74,14 +83,7 @@ void GBNRdtSender::receive(const Packet& ackPkt) {
 			pns->startTimer(SENDER, Configuration::TIME_OUT, base);			//启动发送方定时器
 		}
 	}
-	else {
-		//pUtils->printPacket("发送方没有正确收到确认，重发上次发送的报文", this->packetWaitingAck);
-		//pns->stopTimer(SENDER, this->packetWaitingAck.seqnum);									//首先关闭定时器
-		//pns->startTimer(SENDER, Configuration::TIME_OUT, this->packetWaitingAck.seqnum);			//重新启动发送方定时器
-		//pns->sendToNetworkLayer(RECEIVER, this->packetWaitingAck);								//重新发送数据包
-
-	}
-	
+	printDeque(this->packetBuffer);
 }
 
 void GBNRdtSender::timeoutHandler(int seqNum) {
