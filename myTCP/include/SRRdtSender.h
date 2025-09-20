@@ -1,16 +1,14 @@
 #ifndef SR_RDT_SENDER_H
 #define SR_RDT_SENDER_H
 #include "RdtSender.h"
-#include <deque>
+#include <map>
 class SRRdtSender :public RdtSender
 {
 private:
 	int expectSequenceNumberSend;	// 下一个发送序号 
-	//bool waitingState;				// 是否处于等待Ack的状态
-	//Packet packetWaitingAck;		//已发送并等待Ack的数据包
-	deque<Packet> packetBuffer;		//发送缓冲区
+
+	std::map<int, Packet> packetBuffer; //发送缓冲区，key为seqNum，value为Packet
 	uint32_t windowSize;			//窗口大小
-	uint32_t base;					//窗口基序号
 
 public:
 
