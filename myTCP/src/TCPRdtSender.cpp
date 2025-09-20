@@ -75,12 +75,9 @@ void TCPRdtSender::receive(const Packet& ackPkt) {
 	}
 	else duplicateAckCount++;
 	if (duplicateAckCount >= 3) {
-		cout << "快速重传：：" << lastAckNum << std::endl;
-		for (auto pkt : this->packetBuffer)
-		{
-			pns->sendToNetworkLayer(RECEIVER, pkt);			//重新发送数据包
-			pUtils->printPacket("发送方重发报文", pkt);
-		}
+		/*cout << "快速重传：" << lastAckNum << std::endl;*/
+		pns->sendToNetworkLayer(RECEIVER, packetBuffer.front());			//重新发送数据包
+		pUtils->printPacket("快速重传", packetBuffer.front());
 		duplicateAckCount = 0;
 		return;
 	}
@@ -106,9 +103,6 @@ void TCPRdtSender::timeoutHandler(int seqNum) {
 	//唯一一个定时器,无需考虑seqNum
 	pns->stopTimer(SENDER, base);										//首先关闭定时器
 	pns->startTimer(SENDER, Configuration::TIME_OUT, base);			//重新启动发送方定时器
-	for (auto pkt : this->packetBuffer)
-	{
-		pns->sendToNetworkLayer(RECEIVER, pkt);			//重新发送数据包
-		pUtils->printPacket("发送方重发报文", pkt);
-	}
+	pns->sendToNetworkLayer(RECEIVER, packetBuffer.front());			//重新发送数据包
+	pUtils->printPacket("发送方重发报文", packetBuffer.front());
 }
