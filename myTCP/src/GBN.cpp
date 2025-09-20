@@ -11,6 +11,11 @@
 
 int main(int argc, char* argv[])
 {
+	FILE* stream;
+	freopen_s(&stream, "GBNlog.txt", "w", stdout); // "w" 表示写入（覆盖）
+	freopen_s(&stream, "GBNlog.txt", "a", stderr); // "a" 表示追加
+
+
 	RdtSender* ps = new GBNRdtSender();
 	RdtReceiver* pr = new GBNRdtReceiver();
 		//pns->setRunMode(0);  //VERBOS模式
