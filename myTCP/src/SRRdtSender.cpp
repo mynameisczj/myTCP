@@ -12,7 +12,7 @@ static bool checkInWindow(int seqNum, int base, int windowSize) {
 		else return false;
 	}
 }
-void printDeque(const std::deque<int>& dq) {
+void SRRdtSender::printDeque(const std::deque<int>& dq) {
 	if(dq.empty()) {
 		std::cout << "deque is empty" << std::endl;
 		return;

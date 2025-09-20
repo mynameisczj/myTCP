@@ -24,6 +24,8 @@ public:
 public:
 	SRRdtSender();
 	virtual ~SRRdtSender();
+private:
+	void printDeque(const std::deque<int>& dq);
 };
 
 #endif

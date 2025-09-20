@@ -12,6 +12,17 @@ static bool checkInWindow(int seqNum, int base, int windowSize) {
 		else return false;
 	}
 }
+void printMap(const std::map<int, Packet>& mp) {
+	if (mp.empty()) {
+		std::cout << "map is empty" << std::endl;
+		return;
+	}
+	for (auto i : mp) {
+		std::cout << i.first << " ";
+	}
+	std::cout << std::endl;
+}
+
 SRRdtReceiver::SRRdtReceiver() :expectSequenceNumberRcvd(0), windowSize(Configuration::SR_WINDOW_SIZE)
 {
 	lastAckPkt.acknum = -1; //初始状态下，上次发送的确认包的确认序号为-1，使得当第一个接受的数据包出错时该确认报文的确认号为-1

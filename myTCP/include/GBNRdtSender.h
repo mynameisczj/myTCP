@@ -6,9 +6,7 @@ class GBNRdtSender :public RdtSender
 {
 private:
 	int expectSequenceNumberSend;	// 下一个发送序号 
-	//bool waitingState;				// 是否处于等待Ack的状态
-	//Packet packetWaitingAck;		//已发送并等待Ack的数据包
-	deque<Packet> packetBuffer;		//发送缓冲区
+	std::deque<Packet> packetBuffer;		//发送缓冲区
 	uint32_t windowSize;			//窗口大小
 	uint32_t base;					//窗口基序号
 
@@ -22,6 +20,8 @@ public:
 public:
 	GBNRdtSender();
 	virtual ~GBNRdtSender();
+private:
+	void printDeque(const std::deque<Packet>& dq);
 };
 
 #endif
